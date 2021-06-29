@@ -1,6 +1,6 @@
 # swim_org
 
-[日本水泳連盟のHP](https://www.swim.org/)からNews欄の最新情報をslackで通知してくれる
+[日本水泳連盟のHP](https://www.swim.or.jp/)からNews欄の最新情報をslackで通知してくれる
 
 # Usage
 
