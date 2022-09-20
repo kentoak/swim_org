@@ -1,6 +1,6 @@
 # swim_org
 
-[日本水泳連盟のHP](https://www.swim.or.jp/)からNews欄の最新情報をslackで通知してくれる
+[日本水泳連盟のHP](https://www.swim.or.jp/)からNews欄の最新情報をslackで通知してくれる。[委員会からのお知らせも](https://swim.or.jp/committee_news/category/c1/)
 
 # Usage
 
@@ -16,7 +16,3 @@
 1. Googleドライブ→新しいスプレッドシートを開く
 2. ツール→スクリプトエディタ
 3. main.gsをコピペ、メモった必要情報を記入
-
-
-# Reference
-https://github.com/Yutarotaro/NachanBot を参考にしています。
