@@ -1,4 +1,9 @@
 var CHANNEL_ACCESS_TOKEN = '[]'; // Channel_access_tokenを登録
+function main(){
+  scraping()
+  scraping1()
+}
+
 function scraping() {
   var url = 'https://swim.or.jp/news/';
   var response = UrlFetchApp.fetch(url);//JavaScript で動的にコンテンツを生成しているサイトでは UrlFetchApp でコンテンツを取得できない。
@@ -44,6 +49,57 @@ function scraping() {
     UrlFetchApp.fetch(post_url, options);
   }
 }
+
+function scraping1() {
+  var url = 'https://swim.or.jp/committee_news/category/c1/';
+  var response = UrlFetchApp.fetch(url);//JavaScript で動的にコンテンツを生成しているサイトでは UrlFetchApp でコンテンツを取得できない。
+  console.log("response: ",response)
+  var json = response.getContentText();
+  //console.log("json: ",json)
+  var link0 = find(json, '<ul class="news-list">','</li>');
+  console.log("link0:",link0)
+  // var flag = find(link0,'<span class="category -wide">競泳委員会','</span>');
+  // console.log("flag is:",flag)
+  var flag = find(link0,'<span class="category -wide">競','</span>');
+  console.log("flag is:",flag)
+  // var flag = find(link0,'<span class="category -wide">地','</span>');
+  // console.log("flag is:",flag)
+  var link = find(link0, '<a href="/committee_news/','" class="block"');
+  console.log("link is ",url+link)
+  var info = url+link
+  // var info = find(link,'<span class="info">','::after');
+  // console.log("info is ",info)
+  var header = find(link0,'<p class="title">','</p>');
+  var date = find(link0,'<div class="date">','</span>');
+  console.log("title is ",header)
+  var sheet = SpreadsheetApp.getActiveSheet(); 
+  var lastRow = sheet.getLastRow();
+  console.log("lastRow: ",lastRow)
+  var pre_info = sheet.getRange(lastRow,1).getValue();
+  var post_url = "https://hooks.slack.com/services/"
+  +"T026B3697G9/B026UHYUDFB/iQIeMK3jXYJMywQqTjrmiPe7"; //postメソッドのurl
+  if(info != pre_info && flag=='泳委員会'){//更新
+    sheet.getRange(lastRow+1, 1).setValue(info);
+    var jsondata = {
+      "text": date+'\n'+header+'\n'+info,
+      "attachments": attachments, //リッチなメッセージを送る用データ
+    }
+    var payload = JSON.stringify(jsondata);
+    var attachments = JSON.stringify([
+      {
+        title_link: info,
+        text: "上記リンクをクリックすると対象のページやファイルを表示します。" //インデント内に表示されるテキスト
+      }
+    ]);
+    var options = {
+        "method": "post",
+        "contentType": "application/json",
+        "payload":payload,
+    };
+    UrlFetchApp.fetch(post_url, options);
+  }
+}
+
 function find(text, from, to) {
   var fromIndex = text.indexOf(from);//textの中からfromを見つける。返り値はindex
   if (fromIndex === -1) return '';
