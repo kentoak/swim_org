@@ -27,20 +27,20 @@ function scraping() {
   console.log("lastRow: ",lastRow)
   var range = sheet.getDataRange();// そのシート上の値が存在するセル範囲を取得
   var values = range.getValues();// そのセル範囲にある値の多次元配列を取得
-  var flag = false
+  var matchflag = false
   for (var i = 0; i < values.length; i++) {
     //console.log("val",values[i][0])
     pre_info = values[i][0]
     if (info == pre_info){
       console.log("matched!")
-      flag = true
+      matchflag = true
     }
   }
   //var pre_info = sheet.getRange(lastRow,1).getValue();
   //console.log("pre_info is ",pre_info)
   var post_url = "https://hooks.slack.com/services/"
   +"[必要情報]"; //postメソッドのurl
-  if(!flag && flag=='泳'){//更新
+  if(!matchflag && flag=='泳'){//更新
     sheet.getRange(lastRow+1, 1).setValue(info);
     var jsondata = {
       "text": date+'\n'+header+'\n'+info,
@@ -90,20 +90,20 @@ function scraping1() {
   console.log("lastRow: ",lastRow)
   var range = sheet.getDataRange();// そのシート上の値が存在するセル範囲を取得
   var values = range.getValues();// そのセル範囲にある値の多次元配列を取得
-  var flag = false
+  var matchflag = false
   for (var i = 0; i < values.length; i++) {
     //console.log("val",values[i][0])
     pre_info = values[i][0]
     if (info == pre_info){
       console.log("matched!")
-      flag = true
+      matchflag = true
     }
   }
   //var pre_info = sheet.getRange(lastRow,1).getValue();
   //console.log("pre_info is ",pre_info)
   var post_url = "https://hooks.slack.com/services/"
   +"T026B3697G9/B026UHYUDFB/iQIeMK3jXYJMywQqTjrmiPe7"; //postメソッドのurl
-  if(!flag && flag=='泳委員会'){//更新
+  if(!matchflag && flag=='泳委員会'){//更新
     sheet.getRange(lastRow+1, 1).setValue(info);
     var jsondata = {
       "text": date+'\n'+header+'\n'+info,
