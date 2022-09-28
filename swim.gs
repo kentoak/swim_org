@@ -25,10 +25,22 @@ function scraping() {
   var sheet = SpreadsheetApp.getActiveSheet(); 
   var lastRow = sheet.getLastRow();
   console.log("lastRow: ",lastRow)
-  var pre_info = sheet.getRange(lastRow,1).getValue();
+  var range = sheet.getDataRange();// そのシート上の値が存在するセル範囲を取得
+  var values = range.getValues();// そのセル範囲にある値の多次元配列を取得
+  var flag = false
+  for (var i = 0; i < values.length; i++) {
+    //console.log("val",values[i][0])
+    pre_info = values[i][0]
+    if (info == pre_info){
+      console.log("matched!")
+      flag = true
+    }
+  }
+  //var pre_info = sheet.getRange(lastRow,1).getValue();
+  //console.log("pre_info is ",pre_info)
   var post_url = "https://hooks.slack.com/services/"
   +"[必要情報]"; //postメソッドのurl
-  if(info != pre_info && flag=='泳'){//更新
+  if(!flag && flag=='泳'){//更新
     sheet.getRange(lastRow+1, 1).setValue(info);
     var jsondata = {
       "text": date+'\n'+header+'\n'+info,
@@ -52,6 +64,7 @@ function scraping() {
 
 function scraping1() {
   var url = 'https://swim.or.jp/committee_news/category/c1/';
+  var url2 = 'https://swim.or.jp/committee_news/';
   var response = UrlFetchApp.fetch(url);//JavaScript で動的にコンテンツを生成しているサイトでは UrlFetchApp でコンテンツを取得できない。
   console.log("response: ",response)
   var json = response.getContentText();
@@ -65,8 +78,8 @@ function scraping1() {
   // var flag = find(link0,'<span class="category -wide">地','</span>');
   // console.log("flag is:",flag)
   var link = find(link0, '<a href="/committee_news/','" class="block"');
-  console.log("link is ",url+link)
-  var info = url+link
+  console.log("link is ",url2+link)
+  var info = url2+link
   // var info = find(link,'<span class="info">','::after');
   // console.log("info is ",info)
   var header = find(link0,'<p class="title">','</p>');
@@ -75,10 +88,22 @@ function scraping1() {
   var sheet = SpreadsheetApp.getActiveSheet(); 
   var lastRow = sheet.getLastRow();
   console.log("lastRow: ",lastRow)
-  var pre_info = sheet.getRange(lastRow,1).getValue();
+  var range = sheet.getDataRange();// そのシート上の値が存在するセル範囲を取得
+  var values = range.getValues();// そのセル範囲にある値の多次元配列を取得
+  var flag = false
+  for (var i = 0; i < values.length; i++) {
+    //console.log("val",values[i][0])
+    pre_info = values[i][0]
+    if (info == pre_info){
+      console.log("matched!")
+      flag = true
+    }
+  }
+  //var pre_info = sheet.getRange(lastRow,1).getValue();
+  //console.log("pre_info is ",pre_info)
   var post_url = "https://hooks.slack.com/services/"
   +"T026B3697G9/B026UHYUDFB/iQIeMK3jXYJMywQqTjrmiPe7"; //postメソッドのurl
-  if(info != pre_info && flag=='泳委員会'){//更新
+  if(!flag && flag=='泳委員会'){//更新
     sheet.getRange(lastRow+1, 1).setValue(info);
     var jsondata = {
       "text": date+'\n'+header+'\n'+info,
